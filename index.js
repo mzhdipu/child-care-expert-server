@@ -33,6 +33,13 @@ async function run() {
         res.send(result)
       })
   
+      // Find Multiple doucments for Homepage component
+      app.get('/home-services', async (req, res)=>{
+        const query = {}
+        const result = await childCareExpertDB.find(query).limit(3).toArray()
+        res.send(result)
+      })
+
   
       // Find Multiple Documents
       app.get('/services', async (req, res)=>{
@@ -40,6 +47,7 @@ async function run() {
         const result = await childCareExpertDB.find(query).toArray()
         res.send(result)
       })
+
   
     } finally {
       
