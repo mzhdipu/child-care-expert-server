@@ -13,7 +13,7 @@ require('dotenv').config();
 // Connect MongoDB
 const { MongoClient, ServerApiVersion } = require('mongodb');
 
-const uri = "mongodb+srv://mzhdipuCCE:mh2020dipu@cluster0.xlu8zyp.mongodb.net/?retryWrites=true&w=majority";
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.xlu8zyp.mongodb.net/?retryWrites=true&w=majority`;
 
 const client = new MongoClient(uri, { 
   useNewUrlParser: true, 
