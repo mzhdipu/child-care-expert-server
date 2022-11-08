@@ -21,6 +21,36 @@ const client = new MongoClient(uri, {
   serverApi: ServerApiVersion.v1 
 });
 
+
+async function run() {
+    try {
+      const childCareExpertDB = client.db("childCareExpertDatabase").collection("childCareExpertCollection");
+  
+      // create a document to insert
+      app.post('/add/services', async (req, res)=>{
+        const addServices = req.body
+        const result = await childCareExpertDB.insertOne(addServices);
+        res.send(result)
+      })
+  
+  
+      // Find Multiple Documents
+      app.get('/services', async (req, res)=>{
+        const query = {}
+        const result = await childCareExpertDB.find(query).toArray()
+        res.send(result)
+      })
+  
+    } finally {
+      
+    }
+  }
+  run().catch(console.dir);
+
+
+
+
+
 app.get("/", (req, res)=>{
     res.send('Child Care Expert Server is Running')
 })
