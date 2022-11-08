@@ -10,6 +10,17 @@ app.use(express.json());
 // require dot env
 require('dotenv').config();
 
+// Connect MongoDB
+const { MongoClient, ServerApiVersion } = require('mongodb');
+
+const uri = "mongodb+srv://mzhdipuCCE:mh2020dipu@cluster0.xlu8zyp.mongodb.net/?retryWrites=true&w=majority";
+
+const client = new MongoClient(uri, { 
+  useNewUrlParser: true, 
+  useUnifiedTopology: true, 
+  serverApi: ServerApiVersion.v1 
+});
+
 app.get("/", (req, res)=>{
     res.send('Child Care Expert Server is Running')
 })
