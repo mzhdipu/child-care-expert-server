@@ -27,19 +27,12 @@ async function run() {
       const childCareExpertDB = client.db("childCareExpertDatabase").collection("childCareExpertCollection");
   
       // create a document to insert
-      app.post('/add/services', async (req, res)=>{
-        const addServices = req.body
-        const result = await childCareExpertDB.insertOne(addServices);
-        res.send(result)
-      })
+      // app.post('/add/services', async (req, res)=>{
+      //   const addServices = req.body
+      //   const result = await childCareExpertDB.insertOne(addServices);
+      //   res.send(result)
+      // })
   
-      // Find Multiple doucments for Homepage component
-      app.get('/home-services', async (req, res)=>{
-        const query = {}
-        const result = await childCareExpertDB.find(query).limit(3).toArray()
-        res.send(result)
-      })
-
   
       // Find Multiple Documents
       app.get('/services', async (req, res)=>{
@@ -48,6 +41,13 @@ async function run() {
         res.send(result)
       })
 
+       app.post('/services', async (req, res)=>{
+        const addServices = req.body
+        const result = await childCareExpertDB.insertOne(addServices);
+        res.send(result)
+      })
+
+  
   
     } finally {
       
