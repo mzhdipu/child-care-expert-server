@@ -47,15 +47,22 @@ async function run() {
         res.send(result)
       })
 
+      
+      // Reviews
+      const childCareExpertReviews = client.db("childCareExpertReviews").collection("childCareExpertReviewsCollection");
+
+      app.get('/my-reviews', async (req, res)=>{
+        const query = {}
+        const result = await childCareExpertReviews.find(query).toArray()
+        res.send(result)
+      })
   
-  
+
     } finally {
       
     }
   }
   run().catch(console.dir);
-
-
 
 
 
@@ -66,3 +73,6 @@ app.get("/", (req, res)=>{
 app.listen(port, () =>{
     console.log(`The Server Running Port is ${port}`)
 })
+
+
+
