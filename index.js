@@ -26,15 +26,14 @@ async function run() {
     try {
       const childCareExpertDB = client.db("childCareExpertDatabase").collection("childCareExpertCollection");
   
-      // create a document to insert
-      // app.post('/add/services', async (req, res)=>{
-      //   const addServices = req.body
-      //   const result = await childCareExpertDB.insertOne(addServices);
-      //   res.send(result)
-      // })
-  
-  
-      // Find Multiple Documents
+      // Home 
+      app.get('/services', async (req, res)=>{
+        const query = {}
+        const result = await childCareExpertDB.find(query).toArray()
+        res.send(result)
+      })
+
+      // Services
       app.get('/services', async (req, res)=>{
         const query = {}
         const result = await childCareExpertDB.find(query).toArray()
@@ -54,6 +53,8 @@ async function run() {
         const service = await childCareExpertDB.findOne(query); 
         res.send(service); 
     });
+
+
     
     
 
@@ -66,7 +67,50 @@ async function run() {
         const result = await childCareExpertReviews.find(query).toArray()
         res.send(result)
       })
+
+      app.post("/my-reviews", async (req, res)=>{
+        const addReviews = req.body
+        const result = await childCareExpertReviews.insertOne(addReviews);
+      })
   
+
+      
+// Review find
+app.get('/my-reviews/:id', async (req, res) => {
+  const id = req.params.id;
+  const query = { _id: ObjectId(id) };
+  const review = await childCareExpertReviews.findOne(query);
+  res.send(review);
+})
+
+
+// Review Update
+app.put('/my-reviews/:id', async (req, res) => {
+  const id = req.params.id;
+  const query = { _id: ObjectId(id) };
+  const review = req.body;
+  const option = {upsert: true};
+  const updatedReview = {
+      $set: {
+          name : review.name,
+          email : review.email,
+          review : review.review
+      }
+  }
+  const result = await childCareExpertReviews.updateOne(query, updatedReview, option);
+  res.send(result);
+})
+
+
+
+    app.delete('/my-reviews/:id', async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) }
+      const result = await childCareExpertReviews.deleteOne(query);
+      console.log(result);
+      res.send(result);
+    });
+
 
     } finally {
       
