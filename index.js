@@ -60,7 +60,7 @@ async function run() {
 
       
       // Reviews
-      const childCareExpertReviews = client.db("childCareExpertReviews").collection("childCareExpertReviewsCollection");
+      const childCareExpertReviews = client.db("childCareExpertReviews").collection("childCareExpertReviewsCollection"); 
 
       app.get('/my-reviews', async (req, res)=>{
         const query = {}
@@ -71,7 +71,17 @@ async function run() {
       app.post("/my-reviews", async (req, res)=>{
         const addReviews = req.body
         const result = await childCareExpertReviews.insertOne(addReviews);
+        res.send(result)
       })
+
+      // Review Delete 
+      app.delete('/my-reviews/:id', async function (req, res) {
+          const id = req.params.id;
+          const query = { _id: ObjectId(id) };
+          const result = await childCareExpertReviews.deleteOne(query);
+          console.log(result);
+          res.send(result);
+        });
   
 
       
@@ -85,22 +95,22 @@ app.get('/my-reviews/:id', async (req, res) => {
 
 
 // Review Update
-app.put('/my-reviews/:id', async (req, res) => {
-  const id = req.params.id;
-  const query = { _id: ObjectId(id) };
-  const review = req.body;
-  const option = {upsert: true};
-  const updatedReview = {
-      $set: {
-          name : review.name,
-          email : review.email,
-          review : review.review
-      }
-  }
-  const result = await childCareExpertReviews.updateOne(query, updatedReview, option);
-  res.send(result);
-})
-
+// app.put('/my-reviews/:id', async (req, res) => {
+//   const id = req.params.id;
+//   const query = { _id: ObjectId(id) };
+//   const review = req.body;
+//   const option = {upsert: true};
+//   const updatedReview = {
+//       $set: {
+//           name : review.name,
+//           email : review.email,
+//           review : review.review
+//       }
+//   }
+//   const result = await childCareExpertReviews.updateOne(query, updatedReview, option);
+//   res.send(result);
+// })
+  
 
 
     app.delete('/my-reviews/:id', async (req, res) => {
