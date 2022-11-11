@@ -82,11 +82,12 @@ async function run() {
           console.log(result);
           res.send(result);
         });
+
   
 
       
 // Review find
-app.get('/my-reviews/:id', async (req, res) => {
+app.get('/update/:id', async (req, res) => {
   const id = req.params.id;
   const query = { _id: ObjectId(id) };
   const review = await childCareExpertReviews.findOne(query);
@@ -95,22 +96,22 @@ app.get('/my-reviews/:id', async (req, res) => {
 
 
 // Review Update
-// app.put('/my-reviews/:id', async (req, res) => {
-//   const id = req.params.id;
-//   const query = { _id: ObjectId(id) };
-//   const review = req.body;
-//   const option = {upsert: true};
-//   const updatedReview = {
-//       $set: {
-//           name : review.name,
-//           email : review.email,
-//           review : review.review
-//       }
-//   }
-//   const result = await childCareExpertReviews.updateOne(query, updatedReview, option);
-//   res.send(result);
-// })
-  
+app.put('/update/:id', async (req, res) => {
+  const id = req.params.id;
+  const query = { _id: ObjectId(id) };
+  const review = req.body;
+  const option = {upsert: true};
+  const updatedReview = {
+      $set: {
+          name : review.name,
+          email : review.email,
+          review : review.review
+      }
+  }
+  const result = await childCareExpertReviews.updateOne(query, updatedReview, option);
+  res.send(result);
+})
+
 
 
     app.delete('/my-reviews/:id', async (req, res) => {
